@@ -7,11 +7,20 @@ export default function Popup() {
         chrome.storage.local.get(["isRunning"], (result) => {
             chrome.storage.local.set({ isRunning: !result.isRunning }, (_result) => {
                 if (result.isRunning) {
-                    setButtonLabel("Start Timer")
+                    setButtonLabel("Start")
                 } else {
-                    setButtonLabel("Pause Timer")
+                    setButtonLabel("Pause")
                 }
             })
+        })
+    }
+
+    const resetClicked = () => {
+        chrome.storage.local.set({
+            timer: 0,
+            isRunning: false,
+        }, (_result) => {
+            setButtonLabel("Start")
         })
     }
 
@@ -20,6 +29,7 @@ export default function Popup() {
             <img src="icon/icon128.png" />
             <h1>00:00</h1>
             <button onClick={buttonClicked}>{buttonLabel}</button>
+            <button onClick={resetClicked}>Reset</button>
         </>
     )
 }
